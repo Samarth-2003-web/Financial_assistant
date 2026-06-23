@@ -10,8 +10,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Embedded layout overrides for the dedicated Auth screen layer */
+        .auth-screen-wrapper { position: fixed; inset: 0; background: var(--bg-gradient); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+        .auth-card { width: 100%; max-width: 400px; text-align: center; }
+        .auth-card h2 { font-size: 1.8rem; margin-bottom: 0.5rem; font-weight: 700; }
+        .auth-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .auth-toggle-link { color: var(--secondary); cursor: pointer; font-weight: 600; text-decoration: underline; }
+        .hidden-auth-view { display: none; }
+        .logout-btn { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); margin-top: auto; }
+        .logout-btn:hover { background: var(--danger); color: white; }
+    </style>
 </head>
 <body>
+
+    <div id="authScreen" class="auth-screen-wrapper">
+        <div id="loginBox" class="glass-panel auth-card">
+            <div class="logo-icon" style="margin: 0 auto 1rem auto;"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+            <h2>Welcome to RupeeFlow</h2>
+            <p>Access your personal wealth workspace.</p>
+            <form id="loginForm">
+                <div class="form-group" style="text-align: left;"><label>Username ID</label><input type="text" id="loginUser" required placeholder="e.g., Name"></div>
+                <div class="form-group" style="text-align: left;"><label>Password</label><input type="password" id="loginPass" required placeholder="••••••••"></div>
+                <button type="submit" class="btn btn-primary w-100" style="margin-top: 0.5rem;">Initialize Session</button>
+            </form>
+            <p style="margin-top: 1.5rem; font-size: 0.85rem;">New to the platform? <span class="auth-toggle-link" id="toSignUp">Create Profile</span></p>
+        </div>
+
+        <div id="signUpBox" class="glass-panel auth-card hidden-auth-view">
+            <div class="logo-icon" style="margin: 0 auto 1rem auto;"><i class="fa-solid fa-user-plus"></i></div>
+            <h2>Create Profile Vault</h2>
+            <p>Configure a decoupled profile space.</p>
+            <form id="signUpForm">
+                <div class="form-group" style="text-align: left;"><label>Profile Display Name</label><input type="text" id="regName" required placeholder="e.g., Samarth Shetty"></div>
+                <div class="form-group" style="text-align: left;"><label>Unique Username</label><input type="text" id="regUser" required placeholder="e.g., samarth_99"></div>
+                <div class="form-group" style="text-align: left;"><label>Secure Password</label><input type="password" id="regPass" required placeholder="••••••••"></div>
+                <button type="submit" class="btn btn-secondary w-100" style="margin-top: 0.5rem; background: var(--primary); color: white;">Provision Profile</button>
+            </form>
+            <p style="margin-top: 1.5rem; font-size: 0.85rem;">Already registered? <span class="auth-toggle-link" id="toLogin">Sign In</span></p>
+        </div>
+    </div>
+
     <div class="app-container">
         <aside class="sidebar" id="sidebar">
             <div class="logo-area">
@@ -31,6 +70,8 @@
                 <button class="nav-item" data-target="reports"><i class="fa-solid fa-chart-column"></i> Analytics Reports</button>
                 <button class="nav-item" data-target="calculators"><i class="fa-solid fa-calculator"></i> Calculators</button>
                 <button class="nav-item" data-target="settings"><i class="fa-solid fa-gear"></i> Backup & Settings</button>
+                
+                <button class="nav-item logout-btn" id="logoutActionBtn"><i class="fa-solid fa-power-off"></i> Secure Sign Out</button>
             </nav>
         </aside>
 
@@ -46,8 +87,8 @@
                 <div class="header-actions">
                     <button id="themeToggle" class="icon-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
                     <div class="profile-badge">
-                        <div class="avatar">S</div>
-                        <span class="user-name-txt">Samarth</span>
+                        <div class="avatar" id="userAvatarPlate">U</div>
+                        <span class="user-name-txt" id="profileNameDisplay">Loading Profile...</span>
                     </div>
                 </div>
             </header>
@@ -484,7 +525,7 @@
                     </select>
                 </div>
                 <div class="form-group"><label>Counterparty / Entity Name</label><input type="text" id="loanParty" required></div>
-                <div class="form-group"><label>Principal Principal (₹)</label><input type="number" id="loanAmount" required></div>
+                <div class="form-group"><label>Principal (₹)</label><input type="number" id="loanAmount" required></div>
                 <div class="form-group"><label>Rate (%) (If Taken)</label><input type="number" id="loanRate" value="0" step="0.01"></div>
                 <div class="form-group"><label>Maturity Deadline / Date</label><input type="date" id="loanDate" required></div>
                 <div class="form-group"><label>Notes</label><input type="text" id="loanNotes"></div>
