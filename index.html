@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RupeeFlow // Premium Personal Finance Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="logo-area">
+                <div class="logo-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                <h2>Rupee<span>Flow</span></h2>
+                <button class="mobile-close-btn" id="mobileCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-item active" data-target="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</button>
+                <button class="nav-item" data-target="income"><i class="fa-solid fa-arrow-trend-up"></i> Income</button>
+                <button class="nav-item" data-target="expenses"><i class="fa-solid fa-arrow-trend-down"></i> Expenses</button>
+                <button class="nav-item" data-target="investments"><i class="fa-solid fa-chart-line"></i> Investments</button>
+                <button class="nav-item" data-target="loans"><i class="fa-solid fa-hand-holding-dollar"></i> Loans (Borrow/Lend)</button>
+                <button class="nav-item" data-target="family"><i class="fa-solid fa-people-roof"></i> Family Support</button>
+                <button class="nav-item" data-target="budget"><i class="fa-solid fa-bullseye"></i> Budget Planner</button>
+                <button class="nav-item" data-target="goals"><i class="fa-solid fa-trophy"></i> Savings Goals</button>
+                <button class="nav-item" data-target="reports"><i class="fa-solid fa-chart-column"></i> Analytics Reports</button>
+                <button class="nav-item" data-target="calculators"><i class="fa-solid fa-calculator"></i> Calculators</button>
+                <button class="nav-item" data-target="settings"><i class="fa-solid fa-gear"></i> Backup & Settings</button>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-navbar">
+                <div class="left-nav-cluster">
+                    <button class="mobile-menu-toggle" id="menuToggleBtn"><i class="fa-solid fa-bars"></i></button>
+                    <div class="search-bar-container">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="globalSearch" placeholder="Global search across tracking...">
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button id="themeToggle" class="icon-btn" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+                    <div class="profile-badge">
+                        <div class="avatar">S</div>
+                        <span class="user-name-txt">Samarth</span>
+                    </div>
+                </div>
+            </header>
+
+            <section id="dashboard" class="app-view active">
+                <div class="view-header">
+                    <div>
+                        <h1>Financial Command Center</h1>
+                        <p>Real-time ecosystem overview using Indian pricing indices.</p>
+                    </div>
+                </div>
+                <div class="kpi-grid">
+                    <div class="kpi-card glass-panel text-gradient-primary">
+                        <div class="kpi-icon"><i class="fa-solid fa-building-columns"></i></div>
+                        <h3>Net Worth Equity</h3>
+                        <p id="dashNetWorth">₹0</p>
+                    </div>
+                    <div class="kpi-card glass-panel text-success">
+                        <div class="kpi-icon"><i class="fa-solid fa-arrow-up"></i></div>
+                        <h3>Total Income</h3>
+                        <p id="dashIncome">₹0</p>
+                    </div>
+                    <div class="kpi-card glass-panel text-danger">
+                        <div class="kpi-icon"><i class="fa-solid fa-arrow-down"></i></div>
+                        <h3>Total Expenses</h3>
+                        <p id="dashExpenses">₹0</p>
+                    </div>
+                    <div class="kpi-card glass-panel text-secondary">
+                        <div class="kpi-icon"><i class="fa-solid fa-piggy-bank"></i></div>
+                        <h3>Liquid Savings</h3>
+                        <p id="dashSavings">₹0</p>
+                    </div>
+                    <div class="kpi-card glass-panel text-warning">
+                        <div class="kpi-icon"><i class="fa-solid fa-chart-area"></i></div>
+                        <h3>Market Assets</h3>
+                        <p id="dashInvestments">₹0</p>
+                    </div>
+                    <div class="kpi-card glass-panel text-orange">
+                        <div class="kpi-icon"><i class="fa-solid fa-handshake"></i></div>
+                        <h3>Loan Liabilities</h3>
+                        <p id="dashLoans">₹0</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-secondary-grid">
+                    <div class="glass-panel health-score-card">
+                        <h3>Financial Health Index</h3>
+                        <div class="score-container">
+                            <svg viewBox="0 0 36 36" class="circular-chart">
+                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path id="healthScoreCircle" class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.35" class="percentage" id="healthScoreText">0</text>
+                            </svg>
+                        </div>
+                        <p id="healthMessage" class="subtext">Awaiting log entries...</p>
+                    </div>
+                    <div class="glass-panel charts-summary">
+                        <h3>Inflow vs Outflow Ratios</h3>
+                        <div class="chart-wrapper-mini">
+                            <canvas id="miniPieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel recent-transactions-section">
+                    <h3>Recent Bookkeeping Logs</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Date</th><th>Type</th><th>Flow Class</th><th>Amount</th><th>Description</th></tr>
+                            </thead>
+                            <tbody id="recentTransactionsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="income" class="app-view">
+                <div class="view-header flex-mobile-wrap">
+                    <h1>Income Ledger</h1>
+                    <button class="btn btn-primary open-modal-btn" data-modal="incomeModal"><i class="fa-solid fa-plus"></i> Record Inflow</button>
+                </div>
+                <div class="filter-strip glass-panel">
+                    <input type="month" id="incomeMonthFilter">
+                    <input type="text" id="incomeSearch" placeholder="Search parameters...">
+                    <button class="btn btn-secondary" onclick="app.clearIncomeFilters()">Reset</button>
+                </div>
+                <div class="glass-panel">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Date</th><th>Source Profile</th><th>Amount</th><th>Notes</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="incomeTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="expenses" class="app-view">
+                <div class="view-header flex-mobile-wrap">
+                    <h1>Expense Ledger</h1>
+                    <button class="btn btn-primary open-modal-btn" data-modal="expenseModal"><i class="fa-solid fa-plus"></i> Log Outflow</button>
+                </div>
+                <div class="filter-strip glass-panel">
+                    <select id="expenseCategoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="Rent">Rent</option>
+                        <option value="Food">Food</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Trip/Travel">Trip/Travel</option>
+                        <option value="Family">Family</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Medical">Medical</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Education">Education</option>
+                        <option value="Others">Others</option>
+                    </select>
+                    <input type="month" id="expenseMonthFilter">
+                    <input type="text" id="expenseSearch" placeholder="Search text...">
+                    <button class="btn btn-secondary" onclick="app.clearExpenseFilters()">Reset</button>
+                </div>
+                <div class="glass-panel">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Date</th><th>Category</th><th>Amount</th><th>Description</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="expenseTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="investments" class="app-view">
+                <div class="view-header flex-mobile-wrap">
+                    <h1>Asset Valuation Portfolio</h1>
+                    <div class="btn-group mobile-w-100-flex">
+                        <button class="btn btn-primary open-modal-btn" data-modal="stockModal"><i class="fa-solid fa-plus"></i> Equities</button>
+                        <button class="btn btn-secondary open-modal-btn" data-modal="mfModal"><i class="fa-solid fa-plus"></i> Mutual Funds</button>
+                        <button class="btn btn-accent open-modal-btn" data-modal="sipModal"><i class="fa-solid fa-plus"></i> SIP</button>
+                    </div>
+                </div>
+                
+                <div class="portfolio-summary-bar glass-panel flex-mobile-wrap">
+                    <div>Capital Injected: <strong id="invTotalInvested">₹0</strong></div>
+                    <div>Market Portfolio Worth: <strong id="invCurrentValue">₹0</strong></div>
+                    <div>Net Unrealized Alpha: <strong id="invNetReturn">₹0</strong></div>
+                </div>
+
+                <h3>Domestic Equities</h3>
+                <div class="glass-panel margin-bottom">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Symbol</th><th>Qty</th><th>Avg Price</th><th>CMP</th><th>Invested Capital</th><th>Current Value</th><th>P&L</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="stockTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="investment-secondary-grid">
+                    <div class="glass-panel">
+                        <h3>Mutual Funds</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>Scheme Name</th><th>Invested</th><th>Current Evaluation</th><th>P&L</th><th>Actions</th></tr>
+                                </thead>
+                                <tbody id="mfTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="glass-panel">
+                        <h3>Active SIP Mandates</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>Scheme Target</th><th>Monthly Amount</th><th>Deduction Date</th><th>Actions</th></tr>
+                                </thead>
+                                <tbody id="sipTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="loans" class="app-view">
+                <div class="view-header flex-mobile-wrap">
+                    <h1>Credit Ledger & Liabilities</h1>
+                    <button class="btn btn-primary open-modal-btn" data-modal="loanModal"><i class="fa-solid fa-plus"></i> Initialize Loan</button>
+                </div>
+                
+                <div class="loan-grid">
+                    <div class="glass-panel">
+                        <h3>Loans Given (Receivables/Assets)</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>Counterparty</th><th>Principal</th><th>Date</th><th>Status</th><th>Notes</th><th>Actions</th></tr>
+                                </thead>
+                                <tbody id="loansGivenTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="glass-panel">
+                        <h3>Loans Taken (Payables/Liabilities)</h3>
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr><th>Lender Entity</th><th>Principal</th><th>Rate (p.a.)</th><th>Balance Due</th><th>Maturity</th><th>Actions</th></tr>
+                                </thead>
+                                <tbody id="loansTakenTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="family" class="app-view">
+                <div class="view-header flex-mobile-wrap">
+                    <h1>Family Support Remittances</h1>
+                    <button class="btn btn-primary open-modal-btn" data-modal="familyModal"><i class="fa-solid fa-plus"></i> File Transfer</button>
+                </div>
+                <div class="kpi-grid margin-bottom">
+                    <div class="kpi-card glass-panel text-secondary">
+                        <h3>Current Month Support</h3>
+                        <p id="familyMonthTotal">₹0</p>
+                    </div>
+                    <div class="kpi-card glass-panel text-primary">
+                        <h3>Annualized Aggregate</h3>
+                        <p id="familyYearTotal">₹0</p>
+                    </div>
+                </div>
+                <div class="glass-panel">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Date</th><th>Amount</th><th>Purpose Line</th><th>Notes</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="familyTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="budget" class="app-view">
+                <div class="view-header flex-mobile-wrap">
+                    <h1>Category Budget Matrix</h1>
+                    <button class="btn btn-primary open-modal-btn" data-modal="budgetModal"><i class="fa-solid fa-sliders"></i> Calibrate Matrix</button>
+                </div>
+                <div class="budget-layouts-grid" id="budgetContainer"></div>
+            </section>
+
+            <section id="goals" class="app-view">
+                <div class="view-header flex-mobile-wrap">
+                    <h1>Financial Milestones Vault</h1>
+                    <button class="btn btn-primary open-modal-btn" data-modal="goalModal"><i class="fa-solid fa-square-plus"></i> Spin Milestone</button>
+                </div>
+                <div class="goals-layouts-grid" id="goalsContainer"></div>
+            </section>
+
+            <section id="reports" class="app-view">
+                <div class="view-header">
+                    <h1>Analytics Intelligence Engine</h1>
+                </div>
+                <div class="analytics-dashboard">
+                    <div class="chart-box glass-panel large-chart">
+                        <h3>Income vs Expense Cyclical Spans</h3>
+                        <div class="chart-container"><canvas id="reportIncomeExpenseChart"></canvas></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="calculators" class="app-view">
+                <div class="view-header">
+                    <h1>Simulation & Projections Desk</h1>
+                </div>
+                <div class="calculator-grid">
+                    <div class="glass-panel calc-card">
+                        <h3><i class="fa-solid fa-percent"></i> Indian Loan EMI Studio</h3>
+                        <div class="form-group"><label>Principal Balance (₹)</label><input type="number" id="emiPrincipal" value="500000"></div>
+                        <div class="form-group"><label>Interest Rate (p.a. %)</label><input type="number" id="emiRate" step="0.1" value="9.5"></div>
+                        <div class="form-group"><label>Tenure (Months)</label><input type="number" id="emiTenure" value="60"></div>
+                        <button class="btn btn-primary w-100" onclick="app.calcEMI()">Compute Outflow</button>
+                        <div class="calc-result" id="emiResult">EMI: --</div>
+                    </div>
+                    <div class="glass-panel calc-card">
+                        <h3><i class="fa-solid fa-chart-line"></i> Future Wealth SIP Compounder</h3>
+                        <div class="form-group"><label>Monthly SIP Installment (₹)</label><input type="number" id="sipAmount" value="10000"></div>
+                        <div class="form-group"><label>Expected CAGR Return (%)</label><input type="number" id="sipRate" step="0.1" value="15"></div>
+                        <div class="form-group"><label>Duration Horizon (Years)</label><input type="number" id="sipYears" value="10"></div>
+                        <button class="btn btn-secondary w-100" onclick="app.calcSIP()">Project Assets</button>
+                        <div class="calc-result" id="sipResult">Estimated Future Value: --</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="settings" class="app-view">
+                <div class="view-header">
+                    <h1>Systems Infrastructure & Architecture</h1>
+                </div>
+                <div class="glass-panel settings-box">
+                    <h3>Cluster Database Snapshots</h3>
+                    <p class="subtext">Export tracking logs securely or run environment resets.</p>
+                    <div class="settings-actions-cluster flex-mobile-wrap">
+                        <button class="btn btn-success" onclick="app.exportData()"><i class="fa-solid fa-download"></i> Dump Database JSON</button>
+                        <label class="btn btn-secondary file-upload-label">
+                            <i class="fa-solid fa-upload"></i> Restore From State JSON
+                            <input type="file" id="importFile" accept=".json" onchange="app.importData(event)" style="display:none;">
+                        </label>
+                        <button class="btn btn-danger" onclick="app.resetData()"><i class="fa-solid fa-triangle-exclamation"></i> Factory Purge Systems</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="incomeModal" class="modal-overlay">
+        <div class="modal-box glass-panel">
+            <h2>Record Inward Cash Inflow</h2>
+            <form id="incomeForm">
+                <div class="form-group"><label>Date</label><input type="date" id="incomeDate" required></div>
+                <div class="form-group">
+                    <label>Source Parameter</label>
+                    <select id="incomeSource" required>
+                        <option value="Salary">Salary</option>
+                        <option value="Bonus">Bonus</option>
+                        <option value="Freelancing">Freelancing</option>
+                        <option value="Business">Business</option>
+                        <option value="Gift">Gift</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Amount (₹)</label><input type="number" id="incomeAmount" required></div>
+                <div class="form-group"><label>Notes</label><input type="text" id="incomeNotes"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal-btn">Abort</button>
+                    <button type="submit" class="btn btn-primary">Commit Entry</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="expenseModal" class="modal-overlay">
+        <div class="modal-box glass-panel">
+            <h2>Record Outward Outflow</h2>
+            <form id="expenseForm">
+                <div class="form-group"><label>Date</label><input type="date" id="expenseDate" required></div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="expenseCategory" required>
+                        <option value="Rent">Rent</option>
+                        <option value="Food">Food</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Trip/Travel">Trip/Travel</option>
+                        <option value="Family">Family</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Medical">Medical</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Education">Education</option>
+                        <option value="Others">Others</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Amount (₹)</label><input type="number" id="expenseAmount" required></div>
+                <div class="form-group"><label>Description</label><input type="text" id="expenseDescription"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal-btn">Abort</button>
+                    <button type="submit" class="btn btn-primary">Commit Entry</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="stockModal" class="modal-overlay">
+        <div class="modal-box glass-panel">
+            <h2>Equity Security Asset Placement</h2>
+            <form id="stockForm">
+                <div class="form-group"><label>NSE/BSE Asset Name</label><input type="text" id="stockName" required></div>
+                <div class="form-group"><label>Units Volume (Qty)</label><input type="number" id="stockQty" required></div>
+                <div class="form-group"><label>Average Buying Value (₹)</label><input type="number" id="stockPurchase" step="0.01" required></div>
+                <div class="form-group"><label>Current Market Price (CMP) (₹)</label><input type="number" id="stockCurrent" step="0.01" required></div>
+                <div class="form-group"><label>Acquisition Date</label><input type="date" id="stockDate" required></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Deploy Capital</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="mfModal" class="modal-overlay">
+        <div class="modal-box glass-panel">
+            <h2>Mutual Fund Lump Sum Entry</h2>
+            <form id="mfForm">
+                <div class="form-group"><label>Fund Entity Scheme</label><input type="text" id="mfName" required></div>
+                <div class="form-group"><label>Principal Capital Injected (₹)</label><input type="number" id="mfInvested" required></div>
+                <div class="form-group"><label>Current Valuation Portfolio (₹)</label><input type="number" id="mfCurrent" required></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Commit Ledger</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="sipModal" class="modal-overlay">
+        <div class="modal-box glass-panel">
+            <h2>Establish Systematic Investment (SIP)</h2>
+            <form id="sipForm">
+                <div class="form-group"><label>SIP Target Scheme</label><input type="text" id="sipName" required></div>
+                <div class="form-group"><label>Monthly Deduction Scale (₹)</label><input type="number" id="sipAmountField" required></div>
+                <div class="form-group"><label>Effective Initiation Date</label><input type="date" id="sipDate" required></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Deploy Mandate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="loanModal" class="modal-overlay">
+        <div class="modal-box glass-panel">
+            <h2>Liability Registry</h2>
+            <form id="loanForm">
+                <div class="form-group">
+                    <label>Loan Direction Type</label>
+                    <select id="loanType" required>
+                        <option value="Given">Given (Receivable Asset)</option>
+                        <option value="Taken">Taken (Liability Payable)</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Counterparty / Entity Name</label><input type="text" id="loanParty" required></div>
+                <div class="form-group"><label>Principal Principal (₹)</label><input type="number" id="loanAmount" required></div>
+                <div class="form-group"><label>Rate (%) (If Taken)</label><input type="number" id="loanRate" value="0" step="0.01"></div>
+                <div class="form-group"><label>Maturity Deadline / Date</label><input type="date" id="loanDate" required></div>
+                <div class="form-group"><label>Notes</label><input type="text" id="loanNotes"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Bind Transaction</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="familyModal" class="modal-overlay">
+        <div class="modal-box glass-panel">
+            <h2>Log Family Altruism Outflows</h2>
+            <form id="familyForm">
+                <div class="form-group"><label>Remittance Date</label><input type="date" id="familyDate" required></div>
+                <div class="form-group"><label>Value Transferred (₹)</label><input type="number" id="familyAmount" required></div>
+                <div class="form-group"><label>Purpose/Category</label><input type="text" id="familyPurpose" placeholder="e.g., Medical, Household, Subsidy" required></div>
+                <div class="form-group"><label>Notes</label><input type="text" id="familyNotes"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Archive Outflow</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="budgetModal" class="modal-overlay">
+        <div class="modal-box glass-panel">
+            <h2>Calibrate Operational Budgeting Scales</h2>
+            <form id="budgetForm">
+                <div class="form-group"><label>Food Limit (₹)</label><input type="number" id="bFood" value="0"></div>
+                <div class="form-group"><label>Rent Limit (₹)</label><input type="number" id="bRent" value="0"></div>
+                <div class="form-group"><label>Transport Limit (₹)</label><input type="number" id="bTransport" value="0"></div>
+                <div class="form-group"><label>Shopping Limit (₹)</label><input type="number" id="bShopping" value="0"></div>
+                <div class="form-group"><label>Entertainment Limit (₹)</label><input type="number" id="bEntertainment" value="0"></div>
+                <div class="form-group"><label>Others Limit (₹)</label><input type="number" id="bOthers" value="0"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Apply Enforcements</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="goalModal" class="modal-overlay">
+        <div class="modal-box glass-panel">
+            <h2>Establish Capital Target Vector</h2>
+            <form id="goalForm">
+                <div class="form-group">
+                    <label>Milestone Category</label>
+                    <select id="goalCategory">
+                        <option value="Bike">Bike</option>
+                        <option value="Laptop">Laptop</option>
+                        <option value="Emergency Fund">Emergency Fund</option>
+                        <option value="House">House</option>
+                        <option value="Vacation">Vacation</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Target Metric Capital Needed (₹)</label><input type="number" id="goalTarget" required></div>
+                <div class="form-group"><label>Pre-funded Vault Reserves (₹)</label><input type="number" id="goalSaved" value="0"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close-modal-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Lock Milestone Target</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
